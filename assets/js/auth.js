@@ -1,6 +1,6 @@
 class AuthManager {
     constructor() {
-        this.apiBaseUrl = './api.php';
+        this.apiBaseUrl = '/api.php';
         this.isAuthenticated = false;
         this.sessionTimeout = 30 * 60 * 1000; // 30 minutes
         this.sessionTimer = null;

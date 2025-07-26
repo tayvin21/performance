@@ -1,7 +1,7 @@
 class DashboardManager {
     constructor(authManager) {
         this.authManager = authManager;
-        this.apiBaseUrl = './api.php';
+        this.apiBaseUrl = '/api.php';
         this.refreshInterval = 30000; // 30 seconds
         this.refreshTimer = null;
         this.isRefreshing = false;
