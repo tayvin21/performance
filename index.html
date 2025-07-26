@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Performance Monitor</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-container">
+            <div class="login-card">
+                <div class="login-header">
+                    <div class="logo">
+                        <div class="logo-icon"></div>
+                        <h1>Server Monitor</h1>
+                    </div>
+                    <p>Professional Performance Dashboard</p>
+                </div>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" name="username" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    
+                    <button type="submit" class="login-btn">
+                        <span class="btn-text">Sign In</span>
+                        <div class="loading-spinner"></div>
+                    </button>
+                </form>
+                
+                <div class="error-message" id="loginError"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="dashboard hidden">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-left">
+                <div class="logo">
+                    <div class="logo-icon"></div>
+                    <h1>Server Monitor</h1>
+                </div>
+            </div>
+            
+            <div class="header-center">
+                <div class="server-selector">
+                    <select id="serverSelect">
+                        <option value="main">Main Server</option>
+                        <option value="backup">Backup Server</option>
+                        <option value="cdn">CDN Server</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="header-right">
+                <div class="status-indicator">
+                    <div class="status-dot" id="connectionStatus"></div>
+                    <span id="lastUpdate">Connected</span>
+                </div>
+                <button class="logout-btn" id="logoutBtn">Logout</button>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Metrics Cards -->
+            <section class="metrics-grid">
+                <div class="metric-card" id="cpuCard">
+                    <div class="metric-header">
+                        <div class="metric-icon cpu-icon"></div>
+                        <div class="metric-info">
+                            <h3>CPU Usage</h3>
+                            <div class="metric-value" id="cpuValue">0%</div>
+                        </div>
+                    </div>
+                    <div class="metric-chart">
+                        <canvas id="cpuChart"></canvas>
+                    </div>
+                    <div class="metric-status" id="cpuStatus">Normal</div>
+                </div>
+
+                <div class="metric-card" id="memoryCard">
+                    <div class="metric-header">
+                        <div class="metric-icon memory-icon"></div>
+                        <div class="metric-info">
+                            <h3>Memory Usage</h3>
+                            <div class="metric-value" id="memoryValue">0%</div>
+                        </div>
+                    </div>
+                    <div class="metric-chart">
+                        <canvas id="memoryChart"></canvas>
+                    </div>
+                    <div class="metric-status" id="memoryStatus">Normal</div>
+                </div>
+
+                <div class="metric-card" id="diskCard">
+                    <div class="metric-header">
+                        <div class="metric-icon disk-icon"></div>
+                        <div class="metric-info">
+                            <h3>Disk Usage</h3>
+                            <div class="metric-value" id="diskValue">0%</div>
+                        </div>
+                    </div>
+                    <div class="metric-chart">
+                        <canvas id="diskChart"></canvas>
+                    </div>
+                    <div class="metric-status" id="diskStatus">Normal</div>
+                </div>
+
+                <div class="metric-card" id="networkCard">
+                    <div class="metric-header">
+                        <div class="metric-icon network-icon"></div>
+                        <div class="metric-info">
+                            <h3>Network I/O</h3>
+                            <div class="metric-value" id="networkValue">0 MB/s</div>
+                        </div>
+                    </div>
+                    <div class="metric-chart">
+                        <canvas id="networkChart"></canvas>
+                    </div>
+                    <div class="metric-status" id="networkStatus">Normal</div>
+                </div>
+            </section>
+
+            <!-- Services Status -->
+            <section class="services-section">
+                <h2>Service Status</h2>
+                <div class="services-grid">
+                    <div class="service-card" id="nginxService">
+                        <div class="service-icon nginx-icon"></div>
+                        <div class="service-info">
+                            <h3>Nginx</h3>
+                            <div class="service-status" id="nginxStatus">Running</div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" id="redisService">
+                        <div class="service-icon redis-icon"></div>
+                        <div class="service-info">
+                            <h3>Redis</h3>
+                            <div class="service-status" id="redisStatus">Running</div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" id="mysqlService">
+                        <div class="service-icon mysql-icon"></div>
+                        <div class="service-info">
+                            <h3>MySQL</h3>
+                            <div class="service-status" id="mysqlStatus">Running</div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" id="wingsService">
+                        <div class="service-icon wings-icon"></div>
+                        <div class="service-info">
+                            <h3>Wings</h3>
+                            <div class="service-status" id="wingsStatus">Running</div>
+                        </div>
+                    </div>
+
+                    <div class="service-card" id="dockerService">
+                        <div class="service-icon docker-icon"></div>
+                        <div class="service-info">
+                            <h3>Docker</h3>
+                            <div class="service-status" id="dockerStatus">Running</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Performance Charts -->
+            <section class="charts-section">
+                <div class="chart-container">
+                    <h2>Performance History</h2>
+                    <canvas id="performanceChart"></canvas>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/dashboard.js"></script>
+    <script src="assets/js/charts.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+</html>
