@@ -58,7 +58,15 @@ class DashboardManager {
                 throw new Error(`HTTP ${response.status}`);
             }
 
-            const data = await response.json();
+            const responseText = await response.text();
+            let data;
+            
+            try {
+                data = JSON.parse(responseText);
+            } catch (parseError) {
+                console.error('API returned non-JSON response:', responseText);
+                throw new Error('API endpoint returned HTML instead of JSON. Check if /api.php exists and is working correctly.');
+            }
 
             if (data.success) {
                 this.updateMetrics(data.data);
